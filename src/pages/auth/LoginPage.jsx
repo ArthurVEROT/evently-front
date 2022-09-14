@@ -1,33 +1,20 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import { Link, useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Alert } from "@mui/material";
+
+import styled from "styled-components";
 
 import Navbar from "../../components/NavbarHome";
-
-const theme = createTheme();
+import BasicForm from "../../components/authForm/basicForm";
+import ContainerCentered from "../../components/ui/containerCentered";
+import AuthFormContainer from "./authFormContainer";
 
 export default function LoginPage({ setCurrentUser }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [passwordResetIsSuccessful, setPasswordResetIsSuccessful] =
-    React.useState(false);
-  const [errorMsg, setErrorMsg] = React.useState("");
-  const [credentials, setCredentials] = React.useState({
+    useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [credentials, setCredentials] = useState({
     alias: "",
     password: "",
   });
@@ -123,121 +110,47 @@ export default function LoginPage({ setCurrentUser }) {
     setOpen(false);
   };
 
+  const formFields = [
+    {
+      type: "text",
+      key: "alias",
+      label: "alias: ",
+      name: "alias",
+      id: "alias",
+      required: true,
+      placeholder: "Username or email",
+    },
+    {
+      type: "password",
+      key: "password",
+      label: "password: ",
+      name: "password",
+      id: "password",
+      required: true,
+      placeholder: "Password",
+    },
+  ];
+
+  const formSubmit = "Login";
+
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <header>
         <Navbar />
       </header>
-      <Container component="main" maxWidth="xs">
-        {passwordResetIsSuccessful ? (
-          <Alert severity="success">
-            A password reset link was sent to your email!
-          </Alert>
-        ) : (
-          <></>
-        )}
-        {errorMsg ? <Alert severity="error">{errorMsg}</Alert> : <></>}
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="alias"
-              label="Username or Email Address"
-              name="alias"
-              autoFocus
-              value={alias}
-              onChange={(e) => handleChange(e)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => handleChange(e)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Log In
-            </Button>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="flex-start"
-            >
-              <Grid item>
-                <div>
-                  <Link to={``} onClick={handleClickOpen}>
-                    <p>Forgot password</p>
-                  </Link>
-
-                  <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Reset password</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        To reset your password, please enter your email address
-                        here, and then check your mail box.
-                      </DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                        name="alias"
-                        value={credentials.alias}
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button onClick={handleForgotPassowrd}>Send</Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
-              </Grid>
-              <Grid item>
-                <Link to={`/signup`}>
-                  <p>Create account</p>
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+      <ContainerCentered>
+        <AuthFormContainer>
+          <h2>Login to your account</h2>
+          <BasicForm
+            formFields={formFields}
+            formData={credentials}
+            formSubmit={formSubmit}
+            setFormData={setCredentials}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        </AuthFormContainer>
+      </ContainerCentered>
+    </>
   );
 }

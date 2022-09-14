@@ -1,19 +1,27 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import styled from "styled-components";
+
 import Navbar from "../../components/NavbarHome";
-import SignupForm from "../../components/authForm/SignupForm"
+import BasicForm from "../../components/authForm/basicForm";
+import ContainerCentered from "../../components/ui/containerCentered";
+import AuthFormContainer from "./authFormContainer";
+
+//
+//Styles
+//
+
 
 const SignupPage = () => {
-  const [credentials, setCredentials] = React.useState({
+  const navigate = useNavigate();
+
+  const [credentials, setCredentials] = useState({
     username: "",
     email: "",
     password: "",
   });
-
-  console.log("credentials", credentials);
-
-  const navigate = useNavigate();
 
   function handleChange(e) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -41,15 +49,60 @@ const SignupPage = () => {
       });
   }
 
-  const { username, email, password } = credentials;
+  //
+  //Form fields data
+  //
+  const formFields = [
+    {
+      type: "text",
+      key: "username",
+      label: "Username: ",
+      name: "username",
+      id: "username",
+      required: true,
+      placeholder: "Username",
+    },
+    {
+      type: "text",
+      key: "email",
+      label: "Email: ",
+      name: "email",
+      id: "email",
+      required: true,
+      placeholder: "Email",
+    },
+    {
+      type: "password",
+      key: "password",
+      label: "password: ",
+      name: "password",
+      id: "password",
+      required: true,
+      placeholder: "Password",
+    },
+  ];
+
+  const formSubmit = "Sign up"
 
   return (
-    <div>
+    <>
       <header>
         <Navbar />
       </header>
-      <SignupForm/>
-    </div>
+      <ContainerCentered>
+        <AuthFormContainer>
+          <h2>Create a new account</h2>
+          <BasicForm
+            formFields={formFields}
+            formSubmit={formSubmit}
+            formData={credentials}
+            setFormData={setCredentials}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        </AuthFormContainer>
+      </ContainerCentered>
+    </>
   );
 };
 
