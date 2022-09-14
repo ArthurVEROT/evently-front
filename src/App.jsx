@@ -1,7 +1,13 @@
-import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
-import "./App.css";
-import Signup from "./pages/SignupPage";
-import Login from "./pages/LoginPage";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
+import Signup from "./pages/auth/SignupPage";
+import Login from "./pages/auth/LoginPage";
 import MyEvents from "./pages/MyEventsPage";
 import Search from "./pages/SearchPage";
 import CreateEvent from "./pages/CreateEventPage";
@@ -16,12 +22,14 @@ import Verify from "./pages/VerifyPage";
 import NotFound from "./pages/NotFoundPage";
 import Oops from "./pages/OopsPage";
 import { useState } from "react";
+import HomePage from "./pages/HomePage";
+import NavbarHome from "./components/NavbarHome";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({
     username: localStorage.username,
-    authToken: localStorage.authToken
-  })
+    authToken: localStorage.authToken,
+  });
 
   const { username, authToken } = currentUser;
 
@@ -29,7 +37,27 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<ProtectedLayout {...{ authToken }} />}>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route
+            path="signup"
+            element={authToken ? <Navigate to="/" /> : <Signup />}
+          />
+          <Route
+            path="login"
+            element={
+              authToken ? (
+                <Navigate to="/" />
+              ) : (
+                <Login {...{ setCurrentUser }} />
+              )
+            }
+          />
+          <Route
+            path="verify"
+            element={authToken ? <Navigate to="/events/mine" /> : <Verify />}
+          />
+
+          {/* <Route path="/" element={<ProtectedLayout {...{ authToken }} />}>
             <Route path="" element={<MainLayout currentUser={username} />}>
               <Route path="users/:username" element={<Profile />} />
               <Route path="events/mine" element={<MyEvents />} />
@@ -38,28 +66,21 @@ function App() {
             </Route>
 
             <Route path="/" element={<EventLayout />}>
-              <Route path="events/:id" element={<Event currentUser={username} />} />
+              <Route
+                path="events/:id"
+                element={<Event currentUser={username} />}
+              />
               <Route
                 path="events/:id/attendees"
-                element={<Attendees currentUser={username} />} />
+                element={<Attendees currentUser={username} />}
+              />
               <Route path="events/:id/chat" element={<Chat />} />
             </Route>
           </Route>
 
 
-          <Route path="/signup" element={
-            authToken ? <Navigate to="/events/mine" /> : <Signup />
-          } />
-          <Route path="/login" element={
-            authToken ?
-              <Navigate to="/events/mine" /> :
-              <Login {...{ setCurrentUser }} />
-          } />
-          <Route path="/verify" element={
-            authToken ? <Navigate to="/events/mine" /> : <Verify />
-          } />
           <Route path="*" element={<NotFound />} />
-          <Route path="500" element={<Oops />} />
+          <Route path="500" element={<Oops />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

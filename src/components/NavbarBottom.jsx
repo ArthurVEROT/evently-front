@@ -9,7 +9,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 
-import "./styles/NavbarBottom.css";
 
 const NavbarBottom = ({ currentUser }) => {
   const [current, setCurrent] = React.useState("");

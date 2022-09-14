@@ -15,7 +15,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import './styles/SearchBar.css'
 import { MobileDateTimePicker } from '@mui/lab';
 
 // TODO: breakdown searchbar into components

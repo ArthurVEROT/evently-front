@@ -1,7 +1,6 @@
 import React from "react";
 import Message from "./Message";
 
-import "./styles/MessagesBox.css";
 
 const MessagesBox = () => {
   return (

@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./styles/ChatBar.css";
 
 const ChatBar = () => {
   return (

@@ -2,7 +2,6 @@ import React from "react";
 
 import FilterButton from "./FilterButton";
 
-import "./styles/FilterBar.css";
 
 const FilterBar = ({ handleFilter, filterButtons, classes, filter }) => {
   return (

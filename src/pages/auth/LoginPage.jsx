@@ -18,9 +18,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Alert } from "@mui/material";
 
+import Navbar from "../../components/NavbarHome";
+
 const theme = createTheme();
 
-export default function LoginPage({setCurrentUser}) {
+export default function LoginPage({ setCurrentUser }) {
   const [open, setOpen] = React.useState(false);
   const [passwordResetIsSuccessful, setPasswordResetIsSuccessful] =
     React.useState(false);
@@ -54,11 +56,11 @@ export default function LoginPage({setCurrentUser}) {
       data: request,
     })
       .then(({ data }) => {
-        const {authToken, username} = data;
-        
+        const { authToken, username } = data;
+
         window.localStorage.setItem(`authToken`, data.authToken);
         window.localStorage.setItem(`username`, data.username);
-        setCurrentUser({authToken, username});
+        setCurrentUser({ authToken, username });
         navigate(`/events/mine`);
       })
       .catch((err) => {
@@ -123,6 +125,9 @@ export default function LoginPage({setCurrentUser}) {
 
   return (
     <ThemeProvider theme={theme}>
+      <header>
+        <Navbar />
+      </header>
       <Container component="main" maxWidth="xs">
         {passwordResetIsSuccessful ? (
           <Alert severity="success">

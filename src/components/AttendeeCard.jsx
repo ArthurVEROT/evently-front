@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axiosInstance from "../utils/axiosInstance";
 
-import "./styles/AttendeeCard.css";
 
 const AttendeeCard = (props) => {
   const navigate = useNavigate();

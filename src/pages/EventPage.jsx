@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
 
-import "./styles/EventPage.css";
 import AttendActionBar from "../components/AttendActionBar";
 
 const EventPage = ({ currentUser }) => {

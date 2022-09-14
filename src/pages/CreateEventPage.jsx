@@ -5,7 +5,6 @@ import NavbarBottom from "../components/NavbarBottom";
 import axiosInstance from "../utils/axiosInstance";
 import categories from "../utils/categories.data.js";
 
-import "./styles/CreateEventPage.css";
 import AddressLookupInput from "../components/forms/AddressLookupInput";
 import Input from "../components/forms/Input";
 import Select from "../components/forms/Select";

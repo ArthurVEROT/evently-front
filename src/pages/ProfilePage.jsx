@@ -5,8 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import EditProfileActions from "../components/EditProfileActions";
 import axiosInstance from "../utils/axiosInstance";
 
-import "./styles/ProfilePage.css";
-
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState({});
   const [editOn, setEditOn] = useState(false);
