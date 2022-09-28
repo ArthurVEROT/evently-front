@@ -9,7 +9,7 @@ const ProtectedLayout = ({ authToken }) => {
           ?
           <Outlet />
           :
-          <Navigate to="/login" />
+          <Navigate to="/auth/login" />
       }
     </>
   )

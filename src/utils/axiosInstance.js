@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_URL } from "./consts";
 
 const axiosInstance = axios.create({
-  baseURL: "https://the-evently-api.herokuapp.com",
+  baseURL: API_URL,
 });
 
 // Add a request interceptor
@@ -19,4 +20,4 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-export default axiosInstance
+export default axiosInstance;

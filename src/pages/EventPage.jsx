@@ -29,7 +29,7 @@ const EventPage = ({ currentUser }) => {
         console.error(err);
         switch (err.response.status) {
           case 401:
-            navigate("/login");
+            navigate("/auth/login");
             break;
           case 404:
             navigate("/404");

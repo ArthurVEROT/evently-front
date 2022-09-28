@@ -1,5 +1,4 @@
 import {
-  BrowserRouter,
   Routes,
   Route,
   useLocation,
@@ -35,29 +34,14 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route
-            path="signup"
-            element={authToken ? <Navigate to="/" /> : <Signup />}
-          />
-          <Route
-            path="login"
-            element={
-              authToken ? (
-                <Navigate to="/" />
-              ) : (
-                <Login {...{ setCurrentUser }} />
-              )
-            }
-          />
-          <Route
-            path="verify"
-            element={authToken ? <Navigate to="/events/mine" /> : <Verify />}
-          />
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/auth">
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
+        </Route>
 
-          {/* <Route path="/" element={<ProtectedLayout {...{ authToken }} />}>
+        {/* <Route path="/" element={<ProtectedLayout {...{ authToken }} />}>
             <Route path="" element={<MainLayout currentUser={username} />}>
               <Route path="users/:username" element={<Profile />} />
               <Route path="events/mine" element={<MyEvents />} />
@@ -81,8 +65,7 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
           <Route path="500" element={<Oops />} /> */}
-        </Routes>
-      </BrowserRouter>
+      </Routes>
     </div>
   );
 }

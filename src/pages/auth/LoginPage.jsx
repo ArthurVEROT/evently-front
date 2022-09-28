@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-import styled from "styled-components";
+import { API_URL } from "../../utils/consts";
+import { AuthContext } from "../../context/AuthContext";
 
 import Navbar from "../../components/NavbarHome";
 import BasicForm from "../../components/authForm/basicForm";
 import ContainerCentered from "../../components/ui/containerCentered";
 import AuthFormContainer from "./authFormContainer";
 
-export default function LoginPage({ setCurrentUser }) {
+const LoginPage = () => {
+  const { authenticateUser, isLoggedIn } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [passwordResetIsSuccessful, setPasswordResetIsSuccessful] =
     useState(false);
@@ -19,7 +20,7 @@ export default function LoginPage({ setCurrentUser }) {
     password: "",
   });
 
-  console.log("credentials", credentials);
+  const { alias, password } = credentials;
 
   const navigate = useNavigate();
 
@@ -27,54 +28,53 @@ export default function LoginPage({ setCurrentUser }) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const request = { password };
-
     if (alias.includes(`@`)) {
       request.email = alias;
     } else {
       request.username = alias;
     }
 
-    axios({
-      method: "POST",
-      url: `https://the-evently-api.herokuapp.com/login`,
-      data: request,
-    })
-      .then(({ data }) => {
-        const { authToken, username } = data;
-
-        window.localStorage.setItem(`authToken`, data.authToken);
-        window.localStorage.setItem(`username`, data.username);
-        setCurrentUser({ authToken, username });
-        navigate(`/events/mine`);
-      })
-      .catch((err) => {
-        console.error(err.response);
-
-        if (err.response.status === 404) {
-          setErrorMsg("User does not exist!");
-        } else if (err.response.data.errors.password) {
-          setErrorMsg("Wrong password!");
-        } else if (err.response.data.errors.verification) {
-          setErrorMsg(
-            "Your account is not yet verified please check your email!"
-          );
-        } else {
-          setErrorMsg("Something went wrong!");
-        }
-
-        setTimeout(() => {
-          setErrorMsg("");
-        }, 2000);
+    try {
+      const { data } = await axios({
+        url: "/auth/login",
+        baseURL: API_URL,
+        method: "post",
+        data: request,
       });
-  }
+      if (data) {
+        localStorage.setItem("authToken", data);
+      }
+      await authenticateUser();
+    } catch (err) {
+      console.log(err);
+      // if (err.response.status === 404) {
+      //   setErrorMsg("User does not exist!");
+      // } else if (err.response.data.errors.password) {
+      //   setErrorMsg("Wrong password!");
+      // } else if (err.response.data.errors.verification) {
+      //   setErrorMsg(
+      //     "Your account is not yet verified please check your email!"
+      //   );
+      // } else {
+      //   setErrorMsg("Something went wrong!");
+      // }
 
-  const { alias, password } = credentials;
+      // setTimeout(() => {
+      //   setErrorMsg("");
+      // }, 2000);
+    }
+    console.log("isLoggedIn", isLoggedIn);
+    if (isLoggedIn) {
+      navigate(`/`);
+    }
+  };
 
+  //
   // Forgot password
-
+  //
   const handleForgotPassowrd = () => {
     axios({
       method: "PATCH",
@@ -153,4 +153,6 @@ export default function LoginPage({ setCurrentUser }) {
       </ContainerCentered>
     </>
   );
-}
+};
+
+export default LoginPage;

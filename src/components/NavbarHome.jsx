@@ -1,5 +1,7 @@
-import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
+import styled from "styled-components";
 import Button from "../components/ui/button";
 import StyledLink from "../components/ui/styledLink";
 
@@ -16,20 +18,29 @@ const Container = styled.div`
 `;
 
 const NavbarHome = () => {
+  const { isLoggedIn, logOutUser } = useContext(AuthContext);
+
   return (
     <>
       <Navbar>
         <StyledLink to="/">
           <h1>Evently</h1>
         </StyledLink>
-        <Container>
-          <StyledLink to="/signup">
-            <Button>Sign up</Button>
-          </StyledLink>
-          <StyledLink to="/login">
-            <Button>Login</Button>
-          </StyledLink>
-        </Container>
+
+        {isLoggedIn ? (
+          <Container>
+            <Button onClick={logOutUser}>Log out</Button>
+          </Container>
+        ) : (
+          <Container>
+            <StyledLink to="/auth/signup">
+              <Button>Sign up</Button>
+            </StyledLink>
+            <StyledLink to="/auth/login">
+              <Button>Login</Button>
+            </StyledLink>
+          </Container>
+        )}
       </Navbar>
     </>
   );

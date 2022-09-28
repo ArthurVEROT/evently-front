@@ -9,11 +9,6 @@ import BasicForm from "../../components/authForm/basicForm";
 import ContainerCentered from "../../components/ui/containerCentered";
 import AuthFormContainer from "./authFormContainer";
 
-//
-//Styles
-//
-
-
 const SignupPage = () => {
   const navigate = useNavigate();
 
@@ -31,14 +26,16 @@ const SignupPage = () => {
     e.preventDefault();
 
     axios({
-      method: "POST",
-      url: `https://the-evently-api.herokuapp.com/signup`,
+      url: "/auth/signup",
+      baseURL: API_URL,
+      method: "post",
       data: credentials,
     })
-      .then((res) => {
-        if (res.status === 201) {
-          navigate(`/verify`);
-        }
+      .then((response) => {
+        console.log(response.data);
+        navigate("/auth/login", {
+          state: { message: `User ${username} created successfully!` },
+        });
       })
       .catch((err) => {
         const { status } = err.response;
@@ -82,7 +79,7 @@ const SignupPage = () => {
     },
   ];
 
-  const formSubmit = "Sign up"
+  const formSubmit = "Sign up";
 
   return (
     <>
