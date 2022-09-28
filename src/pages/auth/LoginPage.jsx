@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../utils/consts";
@@ -66,11 +66,17 @@ const LoginPage = () => {
       //   setErrorMsg("");
       // }, 2000);
     }
-    console.log("isLoggedIn", isLoggedIn);
+  };
+
+  
+  //
+  // To navigate after the state is changed
+  //
+  useEffect(() => {
     if (isLoggedIn) {
       navigate(`/`);
     }
-  };
+  }, [isLoggedIn]);
 
   //
   // Forgot password

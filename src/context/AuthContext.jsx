@@ -10,8 +10,7 @@ function AuthProviderWrapper(props) {
 
   const authenticateUser = useCallback(async () => {
     const { isValid, user } = await verifyToken()
-
-
+    console.log('isValid', isValid)
     if (isValid) {
       setIsLoggedIn(true)
       setIsLoading(false)
